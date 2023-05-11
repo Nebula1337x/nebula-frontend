@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cantata+One:wght@400&family=Roboto:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+@import './custom-boostrap.scss';
+@import './variables.scss';
+@import './form.scss';
+
+:root {
+  --font-size-sm: #{$font-size-sm};
+  --font-size-base: #{$font-size-base};
+  --font-size-lg: #{$font-size-lg};
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Cantata One";
+  letter-spacing: 1.5px;
+}
+
+.font-size-sm {
+  font-size: var(--font-size-sm);
+}
