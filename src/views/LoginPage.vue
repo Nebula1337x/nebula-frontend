@@ -14,7 +14,7 @@ import { useFetch, useHandleAPIError } from '@/composables'
 import companyIcon from '@/assets/images/nebula-icon.svg'
 //
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
 // store
 import { useUserDataStore } from '@/stores'
 
@@ -144,6 +144,15 @@ export type ResponseData = {
           </div>
           <!-- alert error -->
           <FormAlert :message="responseErrMessage" :alert-type="AlertType.Danger" v-show="responseErrMessage"  />
+          <!-- reset password -->
+          <div class="mt-3">
+            <RouterLink class="d-block text-decoration-none" to="/register">
+              <span class="font-size-sm">Don't have an account? Register now</span>  
+            </RouterLink>
+            <RouterLink class="d-block text-decoration-none" to="/forget-password">
+              <span class="font-size-sm">Reset password</span>  
+            </RouterLink>
+          </div>
           <!-- btn submit -->
           <button class="btn btn-primary mt-4 w-100" :disabled="isFetching">
             Login

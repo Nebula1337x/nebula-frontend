@@ -1,3 +1,4 @@
 export enum RouteName {        
-  LOGIN = 'LOGIN'
+  Login = 'LOGIN',
+  ForgetPassword = 'FORGET_PASSWORD'
 }
