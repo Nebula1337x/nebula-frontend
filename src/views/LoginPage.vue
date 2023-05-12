@@ -64,55 +64,80 @@ const formSubmit = handleSubmit(async () => {
 </script> 
 
 <template>
-  <div class="bg-secondary">
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-      <!-- login box -->
-      <div class="d-flex p-5 rounded shadow-sm border bg-dark">
-        <div class="d-flex align-items-center me-5">
-          <img class="mx-5 mw-100" :src="companyIcon" alt="Nebula icon" width="200">
-        </div>
-        <div class="d-flex flex-column">
-          <!-- form -->
-          <form @submit.prevent="formSubmit">
-            <div class="mb-4">
-              <h3 class="fw-bolder">Login</h3>
-              <p class="font-size-sm text-muted">Login to your account and start chatting with your lover</p>
-            </div>
-            <!-- username -->
-            <div>
-              <label class="form-label" for="username">Username</label>
-              <input id="username" 
-                class="form-control" :class="{ 'is-invalid': username.errorMessage.value }" 
-                name="username" 
-                type="text" 
-                autofocus 
-                v-model="username.value.value"
-                @input="username.validate()">
-              <span class="invalid-feedback" v-if="username.errorMessage">{{ username.errorMessage.value }}</span>
-            </div>
-            <!-- password -->
-            <div class="form-group">
-              <label class="form-label" for="password">Password</label>
-              <input id="password" class="form-control" :class="{ 'is-invalid': password.errorMessage.value }" name="password" type="password" v-model="password.value.value">
-              <span class="invalid-feedback" v-if="password.errorMessage.value">{{ password.errorMessage.value }}</span>
-            </div>
-            <!-- alert error -->
-            <FormAlert :message="responseErrMessage" :alert-type="AlertType.Danger" v-show="responseErrMessage"  />
-            <!-- btn submit -->
-            <button class="btn btn-primary mt-4 w-100" :disabled="isFetching">
-              Login
-              <FormLoading v-if="isFetching" />
-            </button>
-          </form>
-        </div>
+  <div class="container d-flex justify-content-center align-items-center vh-100">
+    <!-- login box -->
+    <div id="loginBox" class="d-flex flex-column flex-md-row py-0 px-3 px-sm-4 p-md-5 rounded-3 bg-dark">
+      <!-- company icon -->
+      <div class="d-none d-md-flex align-items-center me-5">
+        <img class="mx-5 mw-100" :src="companyIcon" alt="Nebula icon" width="200">
+      </div>
+      <div class="d-flex flex-column">
+        <!-- form -->
+        <form @submit.prevent="formSubmit">
+          <div class="mb-4">
+            <h1 class="text-center text-md-start">Login</h1>
+            <p class="subtitle d-none d-md-block text-muted text-start">Login to your account and start chatting with your lover</p>
+          </div>
+          <!-- username -->
+          <div>
+            <label class="form-label" for="username">Username</label>
+            <input id="username" 
+              class="form-control" :class="{ 'is-invalid': username.errorMessage.value }" 
+              name="username" 
+              type="text" 
+              autofocus 
+              v-model="username.value.value"
+              @input="username.validate()">
+            <span class="invalid-feedback" v-if="username.errorMessage">{{ username.errorMessage.value }}</span>
+          </div>
+          <!-- password -->
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input id="password" class="form-control" :class="{ 'is-invalid': password.errorMessage.value }" name="password" type="password" v-model="password.value.value">
+            <span class="invalid-feedback" v-if="password.errorMessage.value">{{ password.errorMessage.value }}</span>
+          </div>
+          <!-- alert error -->
+          <FormAlert :message="responseErrMessage" :alert-type="AlertType.Danger" v-show="responseErrMessage"  />
+          <!-- btn submit -->
+          <button class="btn btn-primary mt-4 w-100" :disabled="isFetching">
+            Login
+            <FormLoading v-if="isFetching" />
+          </button>
+        </form>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-  form {
-    width: 300px;
-    max-width: 100%;
+@import './node_modules/bootstrap/scss/functions';
+@import './node_modules/bootstrap/scss/variables';
+@import './node_modules/bootstrap/scss/variables-dark';
+@import './node_modules/bootstrap/scss/mixins';
+
+$color-mode-type: data;
+
+// dark mode
+@include color-mode(dark) {
+  #loginBox {
+    box-shadow: $box-shadow-sm;
+
+    @include media-breakpoint-down(sm) {
+      width: 100%; 
+    }
+
+    @include media-breakpoint-up(md) {
+      border: $border-width $border-style $border-color-dark;;
+    } 
   }
+
+  form {
+    width: 100%;
+    max-width: 100%;
+
+    @include media-breakpoint-up(md) {
+      width: 300px;
+    }
+  }
+}
 </style>
