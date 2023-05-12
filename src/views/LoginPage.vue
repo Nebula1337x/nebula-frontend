@@ -1,9 +1,11 @@
 <script setup lang="ts">
+// composables
+import { useLocalStorage } from '@vueuse/core'
 // components
 import FormAlert, { AlertType } from '@/components/form/FormAlert.vue'
 import FormLoading from '@/components/form/FormLoading.vue'
 // const
-import { API } from '@/const'
+import { API, STORAGE_KEY } from '@/const'
 // validator
 import * as Yup from 'yup'
 import { useForm, useField } from 'vee-validate'
@@ -13,6 +15,8 @@ import companyIcon from '@/assets/images/nebula-icon.svg'
 //
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+// store
+import { useUserDataStore } from '@/stores'
 
 const router = useRouter()
 
@@ -45,7 +49,7 @@ const formSubmit = handleSubmit(async () => {
     username: (username.value.value as string).trim(),
     password: (password.value.value as string).trim()
   }
-  const { error } = await useFetch(API.LOGIN, false, {
+  const { error, data } = await useFetch(API.LOGIN, false, {
     onFetchError(ctx) {
       const data = (ctx.data && JSON.parse(ctx.data)) || {}
       const { errorMessage } = useHandleAPIError(ctx.error, ctx.response?.status, data.keyword)
@@ -57,11 +61,53 @@ const formSubmit = handleSubmit(async () => {
   updateIsFetching(false)
 
   if (!error) return
-  // login success, redirect to home page
+
+  const userDataStore = useUserDataStore()
+  
+  // save user data from response to store and local storage
+  const responseData: ResponseData = JSON.parse(data.value as string)
+  const user = responseData.data.user
+  const auth = responseData.data.auth
+
+  userDataStore.setUserData({
+    _id: user._id,
+    username: user.username,
+    auth: {
+      accessToken: auth.accessToken,
+      refreshToken: auth.refreshToken
+    }
+  })
+
+  useLocalStorage(STORAGE_KEY, JSON.stringify(userDataStore.getUserData()))
+  // redirect to home page
   router.push('/')
 })
 
 </script> 
+
+<script lang="ts">
+export enum UserStatus {
+  Activated = 'ACTIVATED'
+}
+
+export type ResponseData = {
+  data: {
+    auth: {
+      accessToken: string,
+      refreshToken: string
+    },
+    user: {
+      _id: string,
+      username: string,
+      profileUrl: string,
+      status: UserStatus,
+      isVerified: boolean,
+      email: string,
+      creationDate: Date
+    }
+  }
+}
+</script>
 
 <template>
   <div class="container d-flex justify-content-center align-items-center vh-100">
