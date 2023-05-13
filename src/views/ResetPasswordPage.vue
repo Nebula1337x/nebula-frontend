@@ -6,12 +6,17 @@ import FormLoading from '@/components/form/FormLoading.vue'
 // validation
 import * as Yup from 'yup'
 import { useField, useForm } from 'vee-validate'
-import { useFetch } from '@/composables'
+import { useFetch, useHandleAPIError } from '@/composables'
 import { API, ErrorKeyword } from '@/const'
+// i18n
+import { useI18n } from 'vue-i18n'
+import type { I18nOptions  } from 'vue-i18n'
+
+const { t } = useI18n<I18nOptions>()
 
 const { handleSubmit, isSubmitting } = useForm({
   validationSchema: Yup.object({
-    email: Yup.string().required().email().label('Email')
+    email: Yup.string().required().email().label(t('fields.user.email'))
   })
 })
 
@@ -46,7 +51,8 @@ const formSubmit = handleSubmit(async () => {
   const { error } = await useFetch(API.RESET_PASSWORD, false, {
     onFetchError(ctx) {
       const data = JSON.parse(ctx.data || null) || {}
-      updateResponseErrorMessage(ErrorKeyword[data.keyword])
+      const { errorMessage } = useHandleAPIError(ctx.error, ctx.response?.status, data.keyword)
+      updateResponseErrorMessage(errorMessage)
      return ctx   
     }
   })
@@ -56,7 +62,7 @@ const formSubmit = handleSubmit(async () => {
 
   if (error.value) return
   
-  updateSuccessMessage(ErrorKeyword['RESET_PASSWORD_COMPLETED'])
+  updateSuccessMessage(t('messages.success.resetPasswordCompleted'))
 })
 </script>
 
@@ -70,7 +76,7 @@ import { AlertType } from '@/components/form/FormAlert.vue'
       <h2 class="text-center mb-4">Reset Password</h2>
       <!-- email -->
       <div class="form-group">
-        <label class="form-label" for="email">Email</label>
+        <label class="form-label" for="email">{{ t('fields.user.email') }}</label>
         <input id="email" class="form-control" :class="{ 'is-invalid': email.errorMessage.value }" type="text" v-model="email.value.value" autofocus>
         <span class="invalid-feedback" v-if="email.errorMessage.value">{{ email.errorMessage.value }}</span>
       </div>
@@ -80,7 +86,7 @@ import { AlertType } from '@/components/form/FormAlert.vue'
       <FormAlert :message="successMessage" :alert-type="AlertType.Success" v-if="successMessage" />
       <!-- btn submit -->
       <button class="btn btn-primary mt-4 w-100" :disabled="isFetching">
-        Reset
+        {{ t('forms.resetPassword.ctaSubmit') }}
         <FormLoading v-if="isSubmitting" />
       </button>
     </form>

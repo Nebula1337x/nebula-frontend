@@ -10,6 +10,9 @@ forms:
     resetPassword: Don't have account? Register now
     forgetPassword: Forget password
     ctaSubmit: Login
+  resetPassword:
+    title: Reset Password
+    ctaSubmit: Reset
 api:
   LOGIN_INVALID_CREDENTIAL: Invalid username or password
   VALIDATION_ERROR: There are problems with the data,
