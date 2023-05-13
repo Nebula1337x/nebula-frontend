@@ -3,6 +3,7 @@ fields:
     username: Username
     password: Password
     email: Email
+    confirmPassword: Confirm Password
 forms:
   login:
     title: Login
@@ -13,11 +14,21 @@ forms:
   resetPassword:
     title: Reset Password
     ctaSubmit: Reset
+  register:
+    title: Register
+    ctaSubmit: Submit
+general:
+  messages:
+    linkLogin: Already have an account? Login now
+validation:
+  username: should contains only characters and number from 0 to 9
 api:
   LOGIN_INVALID_CREDENTIAL: Invalid username or password
   VALIDATION_ERROR: There are problems with the data,
   SERVER_ERROR: There was an error on server, please try again later
   USER_NOT_FOUND: Email was not found in the system
+  USER_NAME_TAKEN: Username is already taken
+  USER_EMAIL_TAKEN: Email is already taken
 messages:
   success:
     resetPasswordCompleted: The message has been sent to your email to reset the password
