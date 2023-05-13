@@ -1,0 +1,22 @@
+fields:
+  user:
+    username: Username
+    password: Password
+    email: Email
+forms:
+  login:
+    title: Login
+    subtitle: Login to your account and start chatting with your lover
+    resetPassword: Don't have account? Register now
+    forgetPassword: Forget password
+    ctaSubmit: Login
+api:
+  LOGIN_INVALID_CREDENTIAL: Invalid username or password
+  VALIDATION_ERROR: There are problems with the data,
+  SERVER_ERROR: There was an error on server, please try again later
+  USER_NOT_FOUND: Email was not found in the system
+messages:
+  success:
+    resetPasswordCompleted: The message has been sent to your email to reset the password
+  error:
+    apiConnectionRefused: Unable to reach API server

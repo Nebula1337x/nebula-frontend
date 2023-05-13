@@ -19,12 +19,14 @@
     "sass-loader": "^13.2.2",
     "vee-validate": "^4.9.2",
     "vue": "^3.2.47",
+    "vue-i18n": "^9.2.2",
     "vue-router": "^4.1.6",
     "yup": "^1.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
+    "@modyfi/vite-plugin-yaml": "^1.0.4",
     "@playwright/test": "^1.33.0",
     "@rushstack/eslint-patch": "^1.2.0",
     "@tsconfig/node18": "^2.0.0",

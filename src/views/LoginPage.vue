@@ -17,13 +17,17 @@ import { ref } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 // store
 import { useUserDataStore } from '@/stores'
+// i18n
+import { useI18n } from 'vue-i18n'
+import type { I18nOptions  } from 'vue-i18n'
 
+const { t } = useI18n<I18nOptions>()
 const router = useRouter()
 
 const { handleSubmit } = useForm({
   validationSchema: Yup.object({
-    username: Yup.string().required().label('Username'),
-    password: Yup.string().required().label('Password')
+    username: Yup.string().required().label(t('fields.user.username')),
+    password: Yup.string().required().label(t('fields.user.password'))
   })
 })
 
@@ -121,12 +125,12 @@ export type ResponseData = {
         <!-- form -->
         <form @submit.prevent="formSubmit">
           <div class="mb-4">
-            <h1 class="text-center text-md-start">Login</h1>
-            <p class="subtitle d-none d-md-block text-muted text-start">Login to your account and start chatting with your lover</p>
+            <h1 class="text-center text-md-start">{{ t('forms.login.title') }}</h1>
+            <p class="subtitle d-none d-md-block text-muted text-start">{{ t('forms.login.subtitle') }}</p>
           </div>
           <!-- username -->
           <div>
-            <label class="form-label" for="username">Username</label>
+            <label class="form-label" for="username">{{ t('fields.user.username') }}</label>
             <input id="username" 
               class="form-control" :class="{ 'is-invalid': username.errorMessage.value }" 
               name="username" 
@@ -138,7 +142,7 @@ export type ResponseData = {
           </div>
           <!-- password -->
           <div class="form-group">
-            <label class="form-label" for="password">Password</label>
+            <label class="form-label" for="password">{{ t('fields.user.password') }}</label>
             <input id="password" class="form-control" :class="{ 'is-invalid': password.errorMessage.value }" name="password" type="password" v-model="password.value.value">
             <span class="invalid-feedback" v-if="password.errorMessage.value">{{ password.errorMessage.value }}</span>
           </div>
@@ -147,15 +151,15 @@ export type ResponseData = {
           <!-- reset password -->
           <div class="mt-3">
             <RouterLink class="d-block text-decoration-none" to="/register">
-              <span class="font-size-sm">Don't have an account? Register now</span>  
+              <span class="font-size-sm">{{ t('forms.login.resetPassword') }}</span>  
             </RouterLink>
             <RouterLink class="d-block text-decoration-none" to="/forget-password">
-              <span class="font-size-sm">Reset password</span>  
+              <span class="font-size-sm">{{ t('forms.login.forgetPassword') }}</span>  
             </RouterLink>
           </div>
           <!-- btn submit -->
           <button class="btn btn-primary mt-4 w-100" :disabled="isFetching">
-            Login
+            {{ t('forms.login.ctaSubmit') }}
             <FormLoading v-if="isFetching" />
           </button>
         </form>

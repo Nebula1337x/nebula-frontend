@@ -1,4 +1,2 @@
 /// <reference types="vite/client" />
-declare module bootstrap {
-  
-}
+/// <reference types="@modyfi/vite-plugin-yaml/modules" />
