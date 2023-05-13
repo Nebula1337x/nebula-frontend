@@ -1,26 +1,26 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 
-type UserDataType = {
+export type useUserDataStoreType = {
   _id?: string | null,
   username?: string | null,
-  auth?: {
+  auth: {
     accessToken?: string | null,
     refreshToken?: string | null
   }
 }
 
 export const useUserDataStore = defineStore('userData', () => {
-  const userData: UserDataType = reactive({
+  const userData: useUserDataStoreType = reactive({
     _id: null,
-    username: '',
+    username: null,
     auth: {
       accessToken: null,
       refreshToken: null
     }
   })
 
-  function setUserData(data: UserDataType): void {
+  function setUserData(data: useUserDataStoreType): void {
     userData._id = data._id
     userData.username = data.username
     userData.auth = data.auth
@@ -30,5 +30,14 @@ export const useUserDataStore = defineStore('userData', () => {
     return { ...userData }
   }
 
-  return { userData, setUserData, getUserData }
+  function clear() {
+    userData._id = null
+    userData.username = null
+    userData.auth.accessToken = null
+    userData.auth.refreshToken = null
+
+    return { ... userData }
+  }
+
+  return { userData, setUserData, getUserData, clear }
 })
